@@ -10,7 +10,6 @@ const schemas = require("./schemas")
 const scoring = require("./scoring")
 const userScore = require("./userScore")
 const app = express()
-const port = 3000
 AdminJS.registerAdapter({ Database, Resource })
 const adminOptions = {
     resources: [{
@@ -139,7 +138,7 @@ app.get('/api/getNotesForPost/:id', async (req, res) => {
     console.log(calculatedNotes)
     res.json(calculatedNotes)
 })
-app.listen(port, async () => {
+app.listen(process.env.PORT || 3000, async () => {
     if (process.env.DEMO_MODE) {
         try {
             await prisma.note.deleteMany({})
