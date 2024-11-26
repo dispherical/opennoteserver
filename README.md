@@ -2,6 +2,12 @@
 
 This is a half-assed attempt to turn X's community notes into a Bun.sh server. It's basically compatible with any service you can think of as it works with your own data structure.
 
+Demo: https://onsdemo.david.hackclub.app
+
+## Implementations
+- Slack:
+    - [noted-slack](https://github.com/dispherical/noted-slack)
+
 ## API Documentation
 
 ### Delete a Vote

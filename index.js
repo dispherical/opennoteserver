@@ -140,13 +140,16 @@ app.get('/api/getNotesForPost/:id', async (req, res) => {
 })
 const server = app.listen(process.env.PORT || 3000, async () => {
     if (process.env.DEMO_MODE) {
-        try {
-            await prisma.note.deleteMany({})
-            await prisma.vote.deleteMany({})
-            await prisma.penality.deleteMany({})
-        } catch (e) {
+        setInterval(async function () {
+            try {
+                await prisma.note.deleteMany({})
+                await prisma.vote.deleteMany({})
+                await prisma.penality.deleteMany({})
+            } catch (e) {
 
-        }
+            }
+        }, 1000 * 60 * 60)
+
     }
     console.log(`Opennoteserver is listening on port ${server.address().port}`)
 })
