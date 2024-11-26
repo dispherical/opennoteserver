@@ -138,7 +138,7 @@ app.get('/api/getNotesForPost/:id', async (req, res) => {
     console.log(calculatedNotes)
     res.json(calculatedNotes)
 })
-app.listen(process.env.PORT || 3000, async () => {
+const server = app.listen(process.env.PORT || 3000, async () => {
     if (process.env.DEMO_MODE) {
         try {
             await prisma.note.deleteMany({})
@@ -148,6 +148,6 @@ app.listen(process.env.PORT || 3000, async () => {
 
         }
     }
-    console.log(`Opennoteserver is listening on port ${port}`)
+    console.log(`Opennoteserver is listening on port ${server.address().port}`)
 })
 
