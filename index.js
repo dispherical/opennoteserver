@@ -1,6 +1,7 @@
 import AdminJS from 'adminjs'
 import AdminJSExpress from '@adminjs/express'
 import { Database, Resource, getModelByName } from '@adminjs/prisma'
+require('dotenv').config()
 const { PrismaClient } = require("@prisma/client");
 const crypto = require('crypto');
 const prisma = new PrismaClient();
@@ -13,16 +14,16 @@ const port = 3000
 AdminJS.registerAdapter({ Database, Resource })
 const adminOptions = {
     resources: [{
-      resource: { model: getModelByName('Note'), client: prisma },
-      options: {},
+        resource: { model: getModelByName('Note'), client: prisma },
+        options: {},
     }, {
-      resource: { model: getModelByName('Vote'), client: prisma },
-      options: {},
+        resource: { model: getModelByName('Vote'), client: prisma },
+        options: {},
     }, {
-      resource: { model: getModelByName('Penality'), client: prisma },
-      options: {},
+        resource: { model: getModelByName('Penality'), client: prisma },
+        options: {},
     }],
-  }
+}
 const admin = new AdminJS(adminOptions)
 console.log(admin.options.rootPath)
 const adminRouter = AdminJSExpress.buildRouter(admin)
@@ -138,7 +139,16 @@ app.get('/api/getNotesForPost/:id', async (req, res) => {
     console.log(calculatedNotes)
     res.json(calculatedNotes)
 })
-app.listen(port, () => {
+app.listen(port, async () => {
+    if (process.env.DEMO_MODE) {
+        try {
+            await prisma.note.deleteMany({})
+            await prisma.vote.deleteMany({})
+            await prisma.penality.deleteMany({})
+        } catch (e) {
+
+        }
+    }
     console.log(`Opennoteserver is listening on port ${port}`)
 })
 
